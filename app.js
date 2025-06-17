@@ -21,4 +21,4 @@ app.use('/',(req,res,next) => {
 
 //server.listen(3000);
 
-app.listen(3000); // here it replace http,server with one line of code.
+app.listen(3000); // here it replace http,server with one line of code
