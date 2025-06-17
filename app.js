@@ -1,29 +1,18 @@
 const express = require("express"); 
+const bodyParser = require('body-parser');
+
 const app = express();
-const bodyParser = requiure('body-parser');
 
-app.use(bodyParser.urlencoded({extended: false})); // used for parsing form data not for files,imagees
-//Use extended: false if you only expect simple key-value pairs.
-//Use extended: true if you expect nested objects or arrays.
-app.use('/add-product',(req,res,next)  => {
+const adminRoutes = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
 
-    console.log('In the middleware');
-    res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add product</button><form>');
-});
+app.use(bodyParser.urlencoded({extended: false})); 
 
-app.use("/product",(req,res,next) => {
+app.use('/admin',adminRoutes); // it omits "/admin" and checks after that
+app.use(shopRoutes);
 
-    console.log(req.body);
-    res.redirect('/');
+app.use((req,res,next) => {
+    res.status(404).send('<h1>page not found</h1>');
 })
-    
- // we have to add paths on priority basis as requests goes from top to bottom
-// use "next" only if you want to go to next requests.
-
-app.use('/',(req,res,next) => {
-    console.log('In another middleware');
-    res.send('<h1> hello express.js </h1>') 
-});
-// here we use "path" filter to filter out requests based on paths. 
 
 app.listen(3000);
