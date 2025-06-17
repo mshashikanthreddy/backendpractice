@@ -1,24 +1,18 @@
-//const http = require("http");
-
-const express = require("express"); // 'express' package exports as a function (to view it preess and hold "ctrl"  and hover over "express")
- 
+const express = require("express"); 
 const app = express();
 
-app.use((req,res,next)  => {
+app.use('/add-product',(req,res,next)  => {
 
     console.log('In the middleware');
-    next();
-})  // "'use' allows us to add new middleware function" which listens for every incoming request.
-// 'next' is function which allows 'req' to travel to next middleware function
-
+    res.send('<h1>The "add product" page</h1>');
+    
+}); // we have to add paths on priority basis as requests goes from top to bottom
+// use "next" only if you want to go to next requests.
 
 app.use('/',(req,res,next) => {
     console.log('In another middleware');
-    res.send('<h1> hello express.js </h1>') //send allows to send a response (headers will automatically(dafault) set to text/html)
-})
+    res.send('<h1> hello express.js </h1>') 
+});
+// here we use "path" filter to filter out requests based on paths. 
 
-//const server = http.createServer();
-
-//server.listen(3000);
-
-app.listen(3000); // here it replace http,server with one line of code.
+app.listen(3000);
