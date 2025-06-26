@@ -1,16 +1,26 @@
-const http = require('http'); // by using "require" we can import our own files,modules(global and local) to work on present files
+const http = require('http'); 
 
-// function rqListener(req,res) {
-
-// }
-
-// http.createServer(rqListener);
+const fs = require("fs");
 
 const server = http.createServer((req,res) => {
 
-    console.log(req.url, req.method ,req.headers);
-    //process.exit(); //hard exit and close server
-    res.setHeader('Content-Type','text/html'); // default header will be a text/html
+    const url = req.url;
+    const method = req.method;
+    if(url === '/')
+    {
+        res.write('<html>');
+        res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">submit</button></form></body>');
+        res.write('</html>');
+        return res.end();
+    }
+    if(url === "/message" && method === "POST")
+    {
+        fs.writeFileSync('message.txt','DUMMY');
+        res.statusCode = 302;
+        res.setHeader("Location","/");
+        return res.end();
+    }
+    res.setHeader('Content-Type','text/html'); 
     res.write('<html>');
     res.write('<head><title> my first page</title></head>');
     res.write('<body><h1>hello from my Node.js server</h1></body>');
