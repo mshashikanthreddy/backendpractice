@@ -1,11 +1,15 @@
+const path = require('path');
+
 const express = require("express");
+
+const rootDir =  require('../util/path');
 
 const router = express.Router();
 // Routers allow you to organize your routes and middleware into modular, mountable route handlers. This helps keep your codebase clean,reusable and maintainable especially in larger applications.
 
 // /admin/add-product => GET
 router.get('/add-product',(req,res,next)  => {
-    res.send('<form action="/admin/add-product" method="POST"><input type="text" name="title"><button type="submit">Add product</button><form>');
+    res.sendFile(path.join(rootDir,'views','add-product.html'));
 });
 
 // /admin/add-product => POST
