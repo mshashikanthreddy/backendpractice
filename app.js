@@ -1,20 +1,24 @@
 const path = require('path');
-const express = require("express"); 
+
+const express = require('express');
 const bodyParser = require('body-parser');
-const rootDir = require('./util/path');
+
+const errorController = require('./controllers/error');
 
 const app = express();
 
-const adminRoutes = require("./routes/admin");
-const shopRoutes = require("./routes/shop");
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-app.use(bodyParser.urlencoded({extended: false})); 
-app.use(express.static(path.join(__dirname,'public' ))) // access filesystem directly
-app.use('/admin',adminRoutes); // it omits "/admin" and checks after that
+const adminRoutes= require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use((req,res,next) => {
-    res.status(404).sendFile(path.join(rootDir,'views','404.html'));
-})
+app.use(errorController.get404);;
 
 app.listen(3000);
