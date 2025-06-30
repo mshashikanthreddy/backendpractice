@@ -1,4 +1,4 @@
-const products = [] ;
+const Product = require('../models/product'); //here we give capital letter for "class" product (an instantited object)
 
 exports.getAddProduct = (req, res, next) => {
   res.render('add-product', {
@@ -12,17 +12,20 @@ exports.getAddProduct = (req, res, next) => {
 
 
 exports.postAddProduct = (req, res, next) => {
-  products.push({ title: req.body.title });
+  const product = new Product(req.body.title);
+  product.save();
   res.redirect('/');
 };
 
-exports.getProducts = (req, res, next) => {
-  res.render('shop', {
-    prods: products,
-    pageTitle: 'Shop',
-    path: '/',
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true
+exports.getProducts = (req, res, next) => {    // here we using/passing callbacks(products) to get data from fetch asynchronously.
+  Product.fetchAll(products => {
+      res.render('shop', {
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
+    });
   });
 }
