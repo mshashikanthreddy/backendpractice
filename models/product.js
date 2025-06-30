@@ -9,7 +9,7 @@ const rootDir = require('../util/path');
 );
 
 const getProductsFromFile = cb => {   // helper function to look nicer
-    
+
         fs.readFile(p,(err,fileContent) => {   // if don't use callbacks it will return even before it reads the file.
             if(err) {
                return cb([]);
@@ -36,6 +36,6 @@ module.exports = class Product {
 
     static fetchAll(cb) {                     //directly call the function without creating instantiation object.
         getProductsFromFile(cb);
-        //return products;  (no 'this' as it refers to local variable.)
+        
     }
 }
