@@ -13,7 +13,7 @@ module.exports = class Cart {
         // fetch the previous cart
 
         fs.readFile(p, (err,fileContent) => {
-            const cart = {products : [] , totalPrice : 0 };
+            let cart = {products : [] , totalPrice : 0 };
             if(!err)
             {
                 cart = JSON.parse(fileContent);
