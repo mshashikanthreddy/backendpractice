@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Cart = require('./cart');
 
 const p = path.join(
   path.dirname(process.mainModule.filename),
@@ -47,6 +48,18 @@ module.exports = class Product {
     });
   }
 
+  static deleteById(id) {
+    getProductsFromFile(products => {
+      const product = products.find(prod => prod.id === id);
+      const updatedProducts = products.filter(prod => prod.id !== id);    // checks all products to match condition and make it like an array.
+      fs.writeFile(p, JSON.stringify(updatedProducts), err => {                                                               // which "findIndex returns product which it intially finds not check all products."
+         if(!err){
+            Cart.deleteProduct(id ,product.price);
+         }
+      })
+    })
+  }
+
   static fetchAll(cb) {
     getProductsFromFile(cb);
   }
@@ -57,4 +70,7 @@ module.exports = class Product {
       cb(product);
     })
   }
+
+  
+  
 };
